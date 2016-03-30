@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+      .da{
+      	transition:all .5s ease;
+      	width: 100px;
+      	height: 100px;
+      	background:yellow;
+      	float: left;
+      	margin:0 30px;
+      }
+      .selected{
+      	transition:all .5s ease;
+      	background: green;
+      	width: 100px;
+      	height: 100px;
+      	float: left;
+      }
+      .mf{
+      	width: 50px;
+      	height: 50px;
+      	background: pink;
+      	border:1px solid black;
+      	border-radius: 50%;
+      	text-align: center;
+      	line-height: 50px;
+      	position: absolute;
+      	left: 800px;
+      	top:200px;
+      	cursor: pointer;
+      }
+	</style>
+</head>
+<body>
+    <div class="mf">魔法球</div>
+	<div id="da" class="da"></div>
+	<div class="da"></div>
+	<div class="da"></div>
+	<div class="da"></div>
+	<div class="da"></div>
+	
+	<!-- <div class="kaiguan">true</div> -->
+</body>
+<script type="text/javascript">
+	
+	 //函数在定义的时候会记录下自己可见范围内的所有变量
+	 //形成一个链条，叫做函数的作用域链
+	 //函数调用时，如果在函数内部有对变量的引用
+	 //函数会在自己的作用域链中由近及远去寻找这个变量
+
+	 //匿名函数是一个单独的函数
+	 //1
+	//var el=document.getElementById("da");
+    // el.onclick=(function(){
+    // 	var flag=true;
+    //       return function(e){
+    //       	if(e.altKey&&e.ctrlKey&&e.shiftKey){
+    //       		this.className=flag?" da selected":"da"
+    //       		flag=!flag;
+    //       	}else{
+    //       		this.className="da";
+    //       	}
+    //       };
+    // })()
+    
+    //2闭包的思想可以实现一个开关多用
+    //因为函数在调用的时候实际上是两个不同的函数，同时也是两个不同的开关
+    // var x=document.getElementsByClassName("kaiguan")[0];
+    // var els=document.getElementsByClassName("da")
+    // for(var i=0;i<els.length;i++){
+    // 	els[i].onclick=(function(){
+    // 		var flag=true;
+    // 		return function(e){
+    // 			if (e.ctrlKey) {
+    // 				this.className=flag?"selected":"da"
+
+    // 				flag=!flag;
+    //                 x.innerHTML=flag
+    // 			}else{
+    // 				this.className="da"
+    // 			}
+    // 		}
+    // 	})()
+    // }
+
+     //3
+     var els=document.getElementsByClassName("da");
+     for (var i = 0; i < els.length; i++) {
+     	els[i].onclick=(function(){
+     		var flag=true;
+     		return function(e){
+     			var r=Math.floor(Math.random()*266);
+     			var g=Math.floor(Math.random()*266);
+     			var b=Math.floor(Math.random()*266);
+     			if(e.ctrlKey){
+     				this.className=flag?"selected":"da";
+     				this.style.backgroundColor="rgb("+r+","+g+","+b+")"; 
+     				if(!flag){
+     					this.style.position="static";
+     					this.className="da";
+     					this.style.backgroundColor="yellow";//transparent background的默认值
+     				}
+     				flag=!flag;
+     			}
+     			// else{
+     			// 	this.className="da"
+     			// }
+     		}
+     	})()
+     	
+     };
+    
+     document.ondblclick=function(e){ 
+     var a=document.getElementsByClassName("selected");
+     if(a.length===0){
+     	alert("请选中一个元素")
+     }else{
+     for(var i= 0;i<a.length;i++){
+     	var el=a[i]
+         el.style.position="absolute";
+         el.style.left=e.clientX-el.offsetWidth/2+"px";
+     	 el.style.top=e.clientY-el.offsetHeight/2+"px";
+     	}
+     }
+ }
+     //随鼠标移动
+     // document.onmousedown=function(e){
+     // 	document.onmouseup=function(ev){
+     //         var offx=ev.clientX-e.clientX;
+     //         var offy=ev.clientY-e.clientY;
+     //         var els=document.getElementsByClassName("selected");
+     //         for(var i=0 ,el; i<els.length; i++){
+     //             el=els[i];""
+     //             el.style.left=el.offsetLeft+offx+"px";
+     //             el.style.top=el.offsetTop+offy+"px";
+     //         }
+     // 	}
+     // }
+
+
+     //随魔法球移动
+     var mfq=document.getElementsByClassName("mf")[0];
+     mfq.onmousedown=function(e){
+
+     	var dex=e.layerX;
+     	var dey=e.layerY;
+     	console.log(dex,dey)
+     	document.onmousemove=function(ew){
+          var mewx=ew.clientX;
+          var mewy=ew.clientY;
+          var els=document.getElementsByClassName("selected");
+          mfq.style.left=mewx-dex+"px";
+     	  mfq.style.top=mewy-dey+"px";
+     	  for(var i=0,el;i<els.length;i++){
+            el=els[i]; 
+            el.style.left=mewx-dex-mfq.offsetWidth/2+"px";
+     	    el.style.top=mewy-dey-mfq.offsetHeight/2+"px";
+     	  } 
+     	     
+     	}
+     	
+      }
+      
+          
+      
+
+     	
+     	// mfq.onmouseup=function(ev){
+     	// 	var offx=ev.clientX-e.clientX;
+     	// 	var offy=ev.clientY-e.clientY;
+     		
+     	// }
+    
+
+     // document.onmousemove=function(e){
+     //    for(var i= 0;i<a.length;i++){
+     // 	var el=a[i]
+     //     el.style.position="absolute";
+     //     el.style.left=e.clientX-el.offsetWidth/2+"px";
+     // 	 el.style.top=e.clientY-el.offsetHeight/2+"px";
+     // 	}
+     // }
+     // }
+
+
+     //再写一次
+     // var els=document.getElementsByClassName("da");
+     // for(var i=0;i<els.length;i++){
+     // 	els[i].onclick=(function(){
+     // 	   var flag=true;
+     // 	   var r=Math.floor(Math.random()*256);
+     // 	   var g=Math.floor(Math.random()*256);
+     // 	   var b=Math.floor(Math.random()*256);
+     // 	   return function(e){
+     //       if(e.ctrlKey){
+     //	            if(flag){
+     //       	    this.classList.add("selected");
+     //            this.style.backgroundColor="rgb("+r+","+g+","+b+")";
+     //       	    }else{
+     //            this.classList.remove("selected");
+     // 	   		this.style.backgroundColor="yellow";
+     // 	   		this.style.position="static";             	
+     //            }
+     //            flag=!flag;
+     //      else{
+     // 	   		this.className="da";
+     // 	   	}
+     // 	   }
+     // 	})();
+     // }
+     // document.ondblclick=function(e){
+     // 	var els=document.getElementsByClassName("selected");
+     // 	for(var i=0 ; i<els.length;i++){
+     // 		el=els[i];
+     // 		el.style.position="absolute";
+     // 		el.style.left=e.clientX-el.offsetWidth/2+"px";
+     // 		el.style.top=e.clientY-el.offsetHeight/2+"px";
+     // 	}
+     // }
+
+	// el.onmouseover=function(e){
+	// 	console.log(el,e)
+	// 	var a=document.getElementById("da")
+	// 	a.style.background="red";
+
+
+	// }
+	// el.onmousemove=function(e){
+	// 	console.log(el,e)
+	// 	var a=document.getElementById("da")
+	// 	a.style.background="blue";
+	// }
+	// el.onmousedown=function(e){
+	// 	console.log(el,e)
+	// 	var a=document.getElementById("da")
+	// 	a.style.background="green";
+	// }
+	// el.onmouseup=function(e){
+	// 	console.log(el,e)
+	// 	var a=document.getElementById("da")
+	// 	a.style.background="black";
+	// }
+	// el.onclick=function(e){
+ //       console.log(el,e)
+ //       var a=document.getElementById("da")
+	// 	a.style.background="pink";
+	// 	a.style.width="300px"
+	// 	a.style.height="500px"
+	// }
+
+	// el.onmouseout=function(e){
+	// 	console.log(el,e)
+	// 	var a=document.getElementById("da")
+	// 	a.style.background="yellow";
+	// }
+
+	// el.onmousedblclick=function(e){
+	// 	console.log(el,e)
+	// 	var a=document.getElementById("da")
+	// 	a.style.background="white";
+	// }
+</script>
+</html>
