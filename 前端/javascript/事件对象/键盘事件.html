@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="data.js">
+	</script>
+	<style type="text/css">
+      .body{
+        background: url(./image/1.jpg) no-repeat center;
+      }
+       .box{
+        position: relative;
+       	width: 800px;
+       	height: 500px;
+       	border:1px solid black;
+        overflow: hidden;
+       }
+       .zi{
+        position: absolute;
+        float: left;
+       	 width: 50px;
+       	 height: 50px;
+       	 border:1px solid black;
+       	 background: yellow;
+       	 text-align: center;
+       	 line-height: 40px;
+       	 font-size: 25px;
+         border-radius: 50%;
+       }
+	</style>
+</head>
+<body>
+	<div class="box">                                                                                 
+	</div>
+</body>
+<script type="text/javascript">
+        var boxs=document.querySelector(".box");
+        var createwords={};
+        var num=6;
+        var createword=function (){
+          do{
+               var key=String.fromCharCode(Math.floor(Math.random()*26+97)).toLowerCase();
+          }while(createwords[key]);
+          var el=document.createElement("div");
+          el.classList.add("zi");
+          el.innerHTML=key;
+          boxs.appendChild(el);
+          el.style.left=Math.random()*(boxs.offsetWidth-el.offsetWidth)+"px";
+          var r=Math.floor(Math.random()*256);
+          var g=Math.floor(Math.random()*256);
+          var b=Math.floor(Math.random()*256);
+          el.style.background="rgb("+r+","+g+","+b+")";
+            createwords[key]=el;        
+         } 
+        for(var i=0 ;i<num;i++){
+          createword();
+        }
+    
+
+        var removeword=function(e){
+          var el = createwords[e];
+          el.parentNode.removeChild(el);
+          delete createwords[e];
+        }  
+        document.onkeyup=function(e){
+          if(e.keyCode===32){
+            flag();
+            return;
+          }
+          var word=String.fromCharCode(e.keyCode).toLowerCase();
+       
+           if(createwords[word]){  
+              
+              removeword(word);
+              createword();
+           }
+        }
+         function diao(){
+          var arr=[];
+          for(var i in createwords){
+            var el=createwords[i]
+            el.style.top=el.offsetTop+1+"px";
+            if(el.offsetTop>boxs.offsetHeight){
+              // arr.push(i);
+              key=i;
+            }
+          }
+          if(key){
+            removeword(key);
+            createword();
+          }
+        }
+        var timerId=setInterval(diao,5);
+        var flag=function(){
+          if(timerId){
+               clearInterval(timerId);
+               timerId=null;
+          }else{
+            timerId=setInterval(diao,5);
+          }
+        }
+       
+    // var boxs=document.querySelector(".box");
+    // var word=document.getElementsByClassName("zi")[0];
+
+    // document.onkeyup=function(e){
+    // 	var key=String.fromCharCode(e.keyCode).toLowerCase();
+     
+    // 	if(key==="a"){
+    // 		boxs.removeChild(boxs.firstElementChild);
+    // 		var words=String.fromCharCode(Math.floor(Math.random()*26+97));
+    // 		var divs=document.createElement("div");
+    //         divs.classList.add("zi");
+    // 		boxs.appendChild(divs);
+    // 		divs.innerHTML=words;
+    // 	}
+    // }
+
+
+	// document.onkeydown=function(e){
+	// 	console.log("down",e);
+	// }
+	// document.onkeyup=function(e){
+	// 	console.log("up",e);
+	// }
+	// document.onkeypress=function(e){
+	// 	console.log("press",e);
+	// }
+	// var obj={};
+	// for(var i=0;i<1000;i++){
+	// 	obj[i]=String.fromCharCode(i)
+
+	// }
+	// console.log(JSON.stringify(obj))
+
+</script>
+</html>

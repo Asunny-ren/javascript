@@ -1,0 +1,246 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>我的微博</title>
+	<style type="text/css">
+        .page{
+        	width: 320px;
+        	height: 550px;
+        	margin: 50px auto;
+        	background: url(./image/10.jpg);
+        }
+        .top{
+            position: relative;
+        	width: 320px;
+        	height: 35px;
+        	background: #906866;
+        	opacity: 0.9;
+        	line-height: 35px;
+        	text-align: center;
+        }
+        .top span{
+        	display: inline-block;
+        	font-size: 14px;
+        	font-weight: 600;
+        }
+        .top .fabu{
+        	display: inline-block;
+        	font-size: 12px;
+        	font-weight: 600;
+        	position: absolute;
+        	float: right;
+        	right:15px;
+        	bottom:0;
+        	color: #FF7C00;
+        	cursor: pointer;
+        }
+        .top i{
+        	background: url(./image/2.jpg) -2px -3px  no-repeat;
+        	border-radius: 50%;
+        	position: absolute;
+        	float: left;
+        	left:15px;
+        	width: 20px;
+        	height: 20px;
+        	bottom: 8px;
+            
+        }
+        .top .tip{
+        	display: inline-block;
+        	position: absolute;
+            left: 40px;
+            top:8px;
+            font-size: 12px;
+            color: #ffe4e4;
+            background: #FFBC00;
+            border-radius: 4px;
+            height: 20px;
+            line-height:20px;
+            cursor:pointer;
+        }
+        .middle{
+        	height: 515px;
+        	overflow: auto;
+        }
+        .middle .wait{
+        	display: block;
+        	width: 320px;
+        	height: 200px;
+        	background: url(./image/9.jpg) -100px -200px no-repeat;
+        	text-align: center;
+        	line-height: 200px;
+        }
+        .feed{
+             height: 100px;
+             background: url(./image/6.jpg) 0 0 no-repeat;
+             padding:5px;
+             margin:3px;
+             border-radius: 3px;
+             
+        }
+        .zan{
+        	display: inline-block;
+          	background: #8E6764;
+          	cursor:pointer;
+          	border-radius: 4px;
+          	color: black;
+        }
+        .zaned{
+          	display: inline-block;
+          	cursor:pointer;
+          	border-radius: 4px;
+          	background: #FF9831;
+          	color: white;
+          }
+          .pc{
+          	overflow: hidden;
+          	height: 30px;
+          }
+          #txt{
+          	width: 306px;
+          	height: 60px;
+            background:url(./image/4.jpg);
+            padding:3px;
+            border:1px solid black;
+            border-radius: 5px;
+            margin:3px;
+            margin-bottom: 1px;
+            overflow: auto;
+            font-size: 12px;
+          }
+          .tbs{
+          	height: 90px;
+          	display: none;
+          }
+          .btn{
+          	display: inline-block;
+             float: left;
+             cursor: pointer;
+             background: #E6E6E6;
+             font-size: 14px;
+             border-radius: 3px;
+             margin-left: 10px;
+          }
+          .btned{
+          	display: inline-block;
+             float: left;
+             cursor: pointer;
+             background: #FFAD52;
+             font-size: 14px;
+             border-radius: 3px;
+             margin-left: 10px;
+             color:#8B6361;
+          }
+          .sp{
+          	display: inline-block;
+          	margin-right: 10px;
+            float: right;
+          	color: red;
+          	background: #B48A8B;
+          	font-size: 12px;
+          }
+
+	</style>
+</head>
+<body>
+    <div class="page">
+    	<div class="top">
+    	     <i></i>
+    	     <div class="tip">您有5条新消息</div>
+    	     <span>我的微博</span>
+    	     <span class="fabu">发表</span>
+    	</div>
+    	<div class="middle">
+    	<div class="tbs">
+    		<textarea name="text" id="txt" max-length="149">请在此输入发表内容</textarea>
+    		<div class="btn">提交</div>
+    		<span class="sp">您还可以输入140个字</span>
+    	</div>
+    		<div class="wait">加载中......</div>
+    	</div>
+    </div>
+</body>
+<script type="text/javascript">
+    var tbs=document.querySelector(".tbs");
+    var sp=document.querySelector(".sp");
+    var btn=document.querySelector(".btn");
+    var txt=document.querySelector("#txt");
+    var page=document.querySelector(".page");
+    var feeds=document.querySelector(".middle"); 
+	var wait=document.querySelector(".wait");
+	var shuju=[{user:"rjd",content:"当今时代大厦附近开了就发士大夫",zan:"1244"},{user:"yuxiao",content:"方腊时能否看看",zan:"44"},{user:"xiaozhuang",content:"流口水的客流高峰乐观开朗看",zan:"124"}]
+	var tip=document.querySelector(".tip");
+    setTimeout(function(){
+    	wait.style.display="none";
+    	//实现加载之后添加三条div
+    	for(var i=0,el,ele;i<3;i++){
+            ele=shuju[i];
+	        var el=document.createElement("div");
+	        el.classList.add("feed");
+	        feeds.insertBefore(el,feeds.firstElementChild.nextSibling)
+	        el.innerHTML="<span>"+ele.user+"</span><p class='pc'>"+ele.content+"</p><span class='zan'>赞("+ele.zan+")</span>"
+	        tbs.style.display="block";
+        }
+    },2000)
+     //实现点击消息提醒后随机添加五条消息
+        var arr=[{user:"",content:"",zan:0}];
+        page.onclick=function(e){
+        var el=e.target;
+        var arr=[];
+            if(el.classList.contains("tip")){
+            	for(var i=0,el,date;i<5;i++){
+            		var a=String.fromCharCode(Math.floor(Math.random()*26+97))+String.fromCharCode(Math.floor(Math.random()*26+97)).toLowerCase()+String.fromCharCode(Math.floor(Math.random()*26+97)).toLowerCase();
+        	arr.push({user:a,content:Math.random().toFixed(10),zan:Math.floor(Math.random()*1000)})
+		            date=arr[i];
+			        el=document.createElement("div");
+			        el.classList.add("feed");
+			        el.innerHTML="<span>"+date.user+"</span><p class='pc'>"+date.content+"</p><span class='zan'>赞("+date.zan+")</span>"
+			         feeds.insertBefore(el,feeds.firstElementChild.nextSibling)
+	            }
+            }else if(el.classList.contains("zan")){
+            	zanhandel.call(el,e);
+            }else if(el.classList.contains("btned")){
+                tijiaohandel.call(el,e); 
+        }
+    }
+        //实现点赞功能
+        var zanhandel=function(e){
+        	if(this.classList.contains("zaned")){
+        		var a=parseInt(this.innerHTML.slice(4,-1))-1;
+			    this.innerHTML="赞("+a+")";
+			    this.classList.toggle("zaned");
+        	}else{
+        		var a=parseInt(this.innerHTML.slice(2,-1))+1;
+			    this.innerHTML="取消赞("+a+")";
+			    this.classList.toggle("zaned");
+        	}
+        }
+        console.log(sp.innerHTML)
+        //实现提交功能
+        var tijiaohandel=function(){
+        	if(this.classList.contains("btned")){
+        	var el=document.createElement("div");
+	        el.classList.add("feed");
+	        el.innerHTML="<span>rjd</span><p class='pc'>"+txt.value+"</p><span class='zan'>赞(0)</span>"
+	        feeds.insertBefore(el,feeds.firstElementChild.nextSibling)
+            }
+         }
+         //文本失去鼠标焦点的时候触发的事件
+         txt.onblur=function(e){
+        	if(this.value===""||this.value==="请在此输入发表内容"){
+        		btn.classList.remove("btned")
+        	}else{
+        		btn.classList.add("btned")
+        	}
+        	
+        }
+        //键盘抬起动作的操作
+        txt.onkeyup=function(){
+        		var a=149-txt.textLength;
+        		sp.innerHTML="您还可以输入"+a+"个字";
+        }
+
+
+</script>
+</html>

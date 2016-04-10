@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>我的微博</title>
+    <style type="text/css">
+          .feeds{
+          	width: 320px;
+          	height: 650px;
+          	position: relative;
+          	margin:0 auto;
+          	padding:20px;
+          	overflow-y: auto;
+          	border:1px solid black;
+          	background: url(./image/1.jpg) 0 0 no-repeat;
+          }
+          .feed{
+          	padding:5px;
+          	border:1px solid black;
+          	overflow: hidden;
+          	margin-bottom: 5px;
+          	background: #33ff33;
+          }
+          .tip{
+             border: 1px solid black;
+             color: red;
+             margin-bottom: 5px;
+             background: pink;
+             display: inline-block;
+             cursor:pointer;
+             height: 30px;
+             line-height: 30px;
+             font-size: 14px;
+             position: absolute;
+             left: 250px;
+             top:130px;
+          }
+          .zan{
+          	display: inline-block;
+          	background: yellow;
+          	cursor:pointer;
+          	border-radius: 3px;
+          	color: black;
+          }
+          .zaned{
+          	display: inline-block;
+          	cursor:pointer;
+          	border-radius: 3px;
+          	background: red;
+          	color: white;
+          }
+    </style>
+</head>
+<body>
+<div class="tip">您有5条新消息</div>
+	<div class="feeds">
+	
+		<div class="feed">
+			<span>于小</span>	
+			<p>的离开撒赖扩大看</p>
+			<span class="zan">赞(888)</span>
+		</div>
+		<div class="feed">
+			<span>rjd</span>	
+			<p>快速打开拉萨即可打开拉进房间阿基里斯</p>
+			<span class="zan">赞(12324)</span>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	var feeds=document.querySelector(".feeds");
+	var feed=document.querySelector(".feed");
+	var tip=document.querySelector(".tip");
+	var zans=document.querySelectorAll(".zan");
+	var data=[{user:"wangwu",neirong:"今天不好！",zan:"1222"},{user:"zhaoliu",neirong:"今天不好！",zan:"1222"},{user:"wangwu",neirong:"今天不好！",zan:"1222"},{user:"lisi",neirong:"今天不好！",zan:"1222"},{user:"wangmazi",neirong:"今天不好！",zan:"1222"}];
+
+
+	tip.onclick=function(){
+         for(var i=0,el;i<5;i++){
+         	var date=data[i]
+         	var el=document.createElement("div");
+
+         	el.classList.add("feed");
+         	
+         	feeds.insertBefore(el,feed.parentElement.firstElementChild);
+         	el.innerHTML="<span>"+date.user+"</span><p>"+date.neirong+"</p><span class='zan'>赞("+date.zan+")</span>";
+         }
+	}
+	  var flag=true;
+	    feeds.onclick=function(e){
+	    	
+	    	var el=e.target;
+	    	console.log(el)
+	    	if(el===this){
+	    		return;
+	    	}
+				if(flag){
+					el.classList.add("zaned");
+					var a=parseInt(el.innerHTML.slice(2).slice(0,-1))+1;
+					el.innerHTML="取消赞("+a+")";
+					flag=false;
+					console.log(flag)
+				}else{
+					el.classList.remove("zaned");
+					var a=parseInt(el.innerHTML.slice(4).slice(0,-1))-1;
+					el.innerHTML="赞("+a+")";
+					flag=true;
+					console.log(flag)
+				}
+		}
+	
+</script>
+</html>
