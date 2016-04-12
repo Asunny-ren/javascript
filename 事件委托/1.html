@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+	   h1{
+	   	margin:30px auto;
+	   	text-align: center;
+	   	background: #8f8f8f;
+	   	width: 400px;
+	   }
+       .container{
+       	position: relative;
+       	margin:0 auto;
+       	border:1px solid black;
+       	width: 1000px;
+       	height: 950px;
+       	background: url(./10.jpg) 0 0;
+       	overflow: auto;
+       }
+       thead th{
+       	background: #FFCE42;
+       	height: 20px;
+       	border:1px solid black;
+       	padding:2px;
+       }
+       table tbody tr td input{
+       	text-align: center;
+       	display: inline-block;
+       	width: 100%;
+       	overflow: hidden;
+       }
+       table tbody tr td{
+       	text-align: center;
+       }
+       .container table{
+       	width:100%;
+        background: #8CCC29;
+       }
+       tbody td{
+       	padding:2px;
+       }
+       .container .add{
+       	width: 300px;
+       	height: 35px;
+       	text-align: center;
+       	line-height: 35px;
+       	background:#15FF03;
+       	margin:0 auto;
+       	margin-top: 10px;
+       	cursor: pointer;
+       }
+       #tips{
+       	width: 100px;
+       	height: 20px;
+       	line-height: 20px;
+       	text-align: center;
+       	position: absolute;
+       	left: 10px;
+       	top:50px;
+       	color: black;
+       }
+       .del{
+       	width: 60px;
+       	height: 20px;
+       	line-height: 20px;
+       	text-align: center;
+       	position: absolute;
+       	right: 10px;
+       	top:70px;
+       	color: white;
+       	background: red;
+       	cursor: pointer;
+       }
+	</style>
+</head>
+<body>
+	<div class="container">
+	  <div id="tips"></div>
+	  <div class="del">删除✘</div>
+		<h1>学生管理信息系统</h1>
+		<table class="table">
+		<thead>
+		<tr>
+				<th data-role="num" flag="true">编号</th>
+				<th data-role="snum" flag="true">学号</th>
+				<th data-role="name" flag="true">姓名</th>
+				<th data-role="sex" flag="true">性别</th>
+				<th data-role="age" flag="true">年龄</th>
+				<th data-role="banji" flag="true">班级</th>
+				<th data-role="core" flag="true">成绩</th>
+				<th data-role="jiguan" flag="true">籍贯</th>
+        <th data-role="id" flag="true">身份证</th>
+        <th><input type="checkbox" id="selectAll" value="全选"></th>
+			</tr>
+		</thead>
+		<tbody></tbody>
+		</table>
+		<div class="add">新增✚</div>
+	</div>
+</body>
+<script type="text/javascript">
+  var del=document.querySelector(".del");
+  var selectall=document.querySelector("#selectAll");
+	var tbody=document.querySelector(".table tbody");
+  var students=[];
+  var render=function () {
+    tbody.innerHTML="";
+    for(var i in students){
+        var data=students[i];
+        var el=document.createElement("tr");
+        el.setAttribute("data-role",data.num);
+        tbody.appendChild(el);
+        el.innerHTML='<td data-role="num">'+data.num+'</td><td data-role="snum">'+data.snum+'</td><td data-role="name">'+data.name+'</td><td data-role="sex">'+data.sex+'</td><td data-role="age">'+data.age+'</td><td data-role="banji">'+data.banji+'</td><td data-role="core">'+data.core+'</td><td data-role="jiguan">'+data.jiguan+'</td><td data-role="id">'+data.id+'</td><td><input class="ck" type="checkbox" value="'+data.num+'"></td>'
+        // localStorage.setItem("students",JSON.stringify(students));
+        }
+}
+  render();
+	var tip=document.querySelector("#tips");
+	var box=document.querySelector(".container");
+    //keyup事件
+    tbody.onclick=function(e){
+      var el=e.target;
+      var els=tbody.querySelectorAll(".editing");
+      if(el.nodeName==="TD"){
+        for(var i=0 ;i<els.length;i++){
+          toggleEdit(els[i]);
+        }
+        toggleEdit(el.parentElement);
+      }else if(el.classList.contains("ck")){
+          toggleselect();
+      }
+    }
+    //从数据和界面删除
+    del.onclick=function(){
+      var els=tbody.querySelectorAll(".ck");
+      for(var i=0;i<els.length;i++){
+        if(els[i].checked){
+          tbody.removeChild(els[i].parentElement.parentElement);
+          var arr=[];
+          for(var k in students){
+        	var v=students[k];
+        	if( Number(v.num) !== Number(els[i].value)){
+        		arr.push(students[k]);
+        	}
+        }
+        students=arr;
+        localStorage.setItem("students",JSON.stringify(students));
+        }
+      }
+      selectall.checked=false;
+    }
+    //全选和反选的实现
+    selectall.onclick=function(){
+      var els=tbody.querySelectorAll(".ck");
+      for(var i=0;i<els.length;i++){
+         els[i].checked=this.checked;
+      }
+    }
+    var toggleselect=function(){
+      var els=tbody.querySelectorAll(".ck");
+      for(var i=0,el,j=0;i<els.length;i++){
+        el=els[i]
+      if(el.checked){
+        j+=1;
+      }
+    }
+    if(j===students.length){
+      selectall.checked=true;
+    }else{
+      selectall.checked=false;
+    }
+  }
+    var timeId;
+    tbody.onkeyup=function(e){
+      var el=e.target;
+      var a=Number(el.parentElement.parentElement.getAttribute("data-role"));
+      var key=el.parentElement.getAttribute("data-role");
+      var value=el.value;
+      clearTimeout(timeId);
+      timeId=setTimeout(function(){
+        update(a,key,value)
+      },1000)
+    }
+    var update=function(e,k,v){
+	      for(var i=0 ;i<students.length;i++){
+				var num=Number(students[i].num)
+				if(e===num){
+					students[i][k]=v;
+				}
+			}
+		  localStorage.students=JSON.stringify(students);
+	    tip.innerHTML="保存成功";
+      tip.style.background="yellow";
+	    var t=setTimeout(function(){
+      tip.innerHTML="";
+      tip.style.background="transparent";
+		 },2000);
+    }
+	//新增数据和界面操作
+  var adddate=document.querySelector(".add");
+	adddate.onclick=function(){
+		var bianhao=students.length?Number(students[students.length-1].num)+1:1;
+		var data={num:bianhao,snum:"",name:"",sex:"",age:"",banji:"",core:"",jiguan:"",id:""};
+		var el=document.createElement("tr");
+		tbody.appendChild(el);
+		el.setAttribute("data-role",students.length+1);
+		el.innerHTML='<td data-role="num">'+data.num+'</td><td data-role="snum">'+data.snum+'</td><td data-role="name">'+data.name+'</td><td data-role="sex">'+data.sex+'</td><td data-role="age">'+data.age+'</td><td data-role="banji">'+data.banji+'</td><td data-role="core">'+data.core+'</td><td data-role="jiguan">'+data.jiguan+'</td><td data-role="id">'+data.id+'</td><td><input class="ck" type="checkbox" id="selectAll" value="'+data.num+'"></td>'
+    toggleEdit(el);
+		students.push(data);
+		localStorage.students=JSON.stringify(students);
+		}
+  var toggleEdit = function(tr){
+  		var tds = tr.querySelectorAll('td[data-role]')
+  		if(tr.classList.contains('editing')){
+  			for( var i = 1,el,temp;i<tds.length;i++){
+  		        	el = tds[i].querySelector('input')
+  		        	temp = el.value;
+  		        	tds[i].innerHTML = temp;
+  		        }
+  			tr.classList.remove('editing');
+          }else{
+          	// td[1].querySelector('input').value
+  	        for( var i = 1;i<tds.length;i++){
+              var td,temp;
+              td = tds[i]
+              temp = td.innerHTML;
+          	td.innerHTML = '<input type="text" value="'+temp+'">'
+          }
+          tr.classList.add('editing')
+          }
+  	}
+    var thead=document.querySelector("table thead");
+    thead.onclick=function(e){
+        var el=e.target;
+        if(el.tagName==="TH"){
+          var sortkey=el.getAttribute("data-role");
+          var state=(el.getAttribute("flag")==="true")?true:false;
+          el.setAttribute("flag",!state);
+          students=students.sort(function(x,y){
+            return state?(x[sortkey]<y[sortkey]):(x[sortkey]>y[sortkey]);
+          })
+          render();
+        }
+    }
+</script>
+</html>
