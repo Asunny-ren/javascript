@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- 如果不加这个标签，手机浏览器打开这个页面的时候会按照手机的
+         实际像素去渲染页面中的内容，这就会导致所有的东西都很小。
+         加上这个标签，手机浏览器会按照逻辑像素去渲染页面内容，
+         这样我们就可以根据不同的手机的逻辑像素去布局 。
+     -->
+    <meta name="viewport"
+    content="width=device-width,initial-scale=1">
+    <title>手机联系人</title>
+    <link rel="stylesheet" type="text/css" href="./css/index.css">
+    <style>
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <span class="refresh">⟳</span>
+      <span class="add">➕</span>
+    </div>
+    <div class="container">
+    <div class="bg">
+      <div class="contacts">
+          <dl class="contactlist">
+          </dl>
+      </div>
+      <div class="finder">
+       <ul class="position-center">
+       </ul>
+      </div>
+    </div>
+    </div>
+    <div class="edit">
+         <div class="content position-center">
+           <div class="info">
+              <div class="vatar"></div>
+              <ul>
+                 <li class="fore1"><span>姓名:</span><input type="text" name="name"></li>
+                 <li class="fore2"><span>公司:</span><input type="text" name="gongsi"></li>
+                 <li class="fore3"><span>职位:</span><input type="text" name="zhiwei"></li>
+              </ul>
+           </div>
+           <ul class="phinfo">
+               <li class="number"><span>手机:</span><input type="text" name="phone"></li>
+               <li class="dianhua"><span>电话:</span><input type="text" name="dianhua"></li>
+               <li class="address"><span>地址:</span><input type="text" name="address"></li>
+           </ul>
+           <div class="btn">
+               <div class="delete">删除</div>
+               <div class="cancel">取消</div>
+               <div class="submit">保存</div>
+           </div>
+         </div>
+    </div>
+  </body>
+  <script src="./js/ajax.js"></script>
+  <script src="./js/index.js"></script>
+</html>

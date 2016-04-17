@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>欢迎来到我的网站</h1>
+  </body>
+  <script>
+     //函数包装
+     var ajax=function(url,callback){
+       var xhr=new XMLHttpRequest();
+       xhr.addEventListener("readystatechange",function(){
+         if(this.readyState!==4){
+           return;
+         }
+         if(this.status===200||this.status===304){
+           callback(this.response);
+         }
+       })
+       xhr.open("get",url,true);
+       xhr.send();
+     }
+     document.addEventListener("dblclick",function(){
+       ajax("/students.json",function(data){
+          console.log(JSON.parse(data));
+       })
+       ajax("/robot.txt",function(data){
+         document.body.innerHTML+=data;
+       })
+     })
+
+    //  var xhr=new XMLHttpRequest();
+    //  xhr.addEventListener("readystatechange",function(){
+    //    if(this.readyState!==4){
+    //      return;
+    //    }
+    //    if(this.status===200||this.status===304){
+    //      document.body.innerHTML+=xhr.response;
+    //    }
+    //  })
+    //  xhr.open("get","/robot.txt",true);
+    //  xhr.send();
+    //  var xhr1=new XMLHttpRequest();
+    //  xhr1.addEventListener("readystatechange",function(){
+    //    if(this.readyState!==4){
+    //      return;
+    //    }
+    //    if(this.status===200||this.status===304){
+    //      document.body.innerHTML+=xhr1.response;
+    //    }
+    //  })
+    //  xhr1.open("get","/students.json",true);
+    //  xhr1.send();
+  </script>
+</html>
