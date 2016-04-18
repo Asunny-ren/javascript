@@ -1,0 +1,231 @@
+body{
+  font-size: 16px;
+  font-family: "Arial";
+}
+body,h1,h2,h3,h4,h5,h6,p,ul,li{
+  margin:0;
+  padding: 0;
+  list-style: none;
+}
+a{
+  color:rgb(230,32,20);
+  text-decoration: none;
+}
+.header{
+  position: fixed;
+  top:0;
+  left:0;
+  width: 100%;
+  height: 43px;
+  background: #C9AD98;
+  position: fixed;
+}
+.header .refresh{
+  text-align: center;
+  width: 50px;
+  font-size:20px;
+  padding-left:5px;
+  line-height: 43px;
+  float: left;
+  height: 45px;
+}
+.header .add{
+  padding-right: 5px;
+  text-align: center;
+  width: 50px;
+  font-size: 20px;
+  float: right;
+  height: 43px;
+  line-height: 43px;
+}
+.container{
+  display: block;
+  width: 411px;
+  height: 731px;
+}
+.container .finder{
+  height: 688px;
+  width: 22px;
+  top:43px;
+  position: fixed;
+  right: 0;
+  background: rgba(222,222, 222, 0.7);
+}
+.container .finder a{
+  color: black;
+}
+.container .finder ul li{
+  text-align: center;
+  padding-bottom:1px;
+  font-size: 16px;
+}
+.position-center{
+  position: absolute;
+  margin:auto;
+  left:0;
+  right:0;
+  top:0;
+  bottom:0;
+}
+.bg{
+  position: fixed;
+  top:43px;
+  width: 411px;
+  height: 633px;
+  background: url(../images/1.jpg) no-repeat -50px 0;
+  overflow-y: auto;
+}
+.container .contacts{
+  width:389px;
+  background: rgba(222,222, 222, 0.7);
+}
+.contacts a{
+  color:black;
+  text-decoration: none;
+  display: block;
+}
+.contactlist{
+  margin-top:0;
+}
+.contacts .phone{
+  color: #1D1F21;
+  font-size: 12px;
+  padding:5px;
+}
+.contacts dd a{
+  position: absolute;
+  left:0;
+  top:0;
+  width: 100%;
+  height: 100%;
+  z-index:1;
+}
+.contacts dd{
+  height: 47px;
+   margin-left:5px;
+   border-bottom: 1px solid black;
+   padding-bottom: 1px;
+   position: relative;
+}
+.contacts dt{
+  height: 20px;
+  line-height: 20px;
+  background: #797979;
+  margin:3px 0;
+  padding-left: 5px;
+}
+.edit input{
+  font-size: 14px;
+}
+.edit{
+  display: none;
+  position: fixed;
+  top:0;
+  left:0;
+  width: 411px;
+  height:731px;
+  background: #989898;
+  z-index: 5;
+}
+.edit .content{
+  width: 400px;
+  height:75%;
+  background: #F5F5F5;
+  background: url(../images/9.jpg) repeat 0 0;
+}
+.edit .content .info{
+   width:380px;
+   height:200px;
+   margin-top: 30px;
+   margin-left: 10px;
+}
+.edit .content .info .vatar{
+  float: left;
+  margin:10px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: url(../images/10.jpg) no-repeat -1px -3px;
+}
+.edit .content .info ul{
+  width: 230px;
+  height:150px;
+  float: right;
+  border:1px solid #A2A2A2;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+.edit .content .info ul li{
+  height: 45px;
+  border-bottom: 1px solid #D8D8D8;
+  line-height: 50px;
+  margin-left: 5px;
+}
+.edit .phinfo{
+  width: 380px;
+  height: 210px;
+  margin-left: 10px;
+  background: #C9C9C9;
+  border-radius: 5px;
+  border:1px solid #A2A2A2;
+}
+.edit .phinfo li{
+  width: 360px;
+  height:50px;
+  border: 1px solid #d8d8d8;
+  margin:15px 10px;
+  background: #e8e8e8;
+  line-height: 50px;
+  padding-left: 5px;
+  box-sizing: border-box;
+  border-radius: 3px;
+}
+.edit .phinfo li span{
+  margin-left: 20px;
+  display: inline-block;
+}
+.edit .phinfo li input{
+  margin-left: 30px;
+  width: 230px;
+  outline: none;
+  border-bottom: 1px solid #c9c9c9;
+}
+.btn{
+  position: relative;
+  left:25px;
+  height: 50px;
+  width: 350px;
+  margin-top: 30px;
+}
+.btn .cancel{
+  margin-right: 5px;
+  float: left;
+  width: 100px;
+  height: 40px;
+  background: green;
+  text-align: center;
+  line-height:40px;
+  border-radius: 3px;
+}
+.btn .submit{
+  margin-right: 5px;
+  float: right;
+  width: 100px;
+  height: 40px;
+  background: yellow;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 3px;
+}
+.btn .delete{
+  display: none;
+  color: white;
+  margin-right: 25px;
+  float: left;
+  width: 100px;
+  height: 40px;
+  background: red;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 3px;
+}
