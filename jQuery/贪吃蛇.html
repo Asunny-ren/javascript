@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>贪吃蛇</title>
+</head>
+<style>
+    body,ul{
+    	padding:0;
+    	margin:0;
+    }
+	.sence{
+		width: 600px;
+		height:600px;
+		border:1px solid black;
+		position: absolute;
+		margin:auto;
+		left:300px;
+		right:250px;
+		top:0;
+		bottom:0;
+	}
+	.block{
+		width: 29px;
+		height: 29px;
+		float: left;
+		background: yellow;
+		margin: 0 1px 1px 0;
+	}
+	.she{
+        width: 20px;
+        height:20px;
+        background: green;
+        border-radius: 50%;
+	}
+	.food{
+		width: 20px;
+		height: 20px;
+		background:blue;
+	}
+    h1{
+    	display: block;
+    	width: 240px;
+    	margin:0 auto;
+    	color:white;
+    }
+	.left{
+		position: relative;
+		box-sizing:border-box;
+		height: 667px;
+		width: 300px;
+		background: #0C1021;
+		padding-top: 20px;
+	}
+	.right{
+		position: fixed;
+		right: 50px;
+        top:150px;
+		box-sizing:border-box;
+		height: 300px;
+		width: 200px;
+		background: #0C1021;
+	}
+	.buju ul{
+		margin:0 auto;
+		width: 200px;
+		height:110px;
+		list-style: none;
+	}
+	.buju ul li{
+		font-size: 20px;
+		text-align: center;
+		line-height: 30px;
+		margin:10px;
+		width: 150px;
+		height: 30px;
+		background: yellow;
+		border-radius:5px;
+		cursor: pointer;
+	}
+	.left input{
+		display: block;
+		width: 160px;
+		margin:0 auto;
+	}
+	h3{
+		display: block;
+		width: 120px;
+		margin:20px auto;
+		color:yellow;
+		margin-top: 30px;
+	}
+	.nandu ul{
+		margin:10px auto;
+		width: 200px;
+		height:110px;
+		list-style: none;
+	}
+	.nandu ul li{
+		font-size: 20px;
+		text-align: center;
+		line-height: 30px;
+		margin:10px;
+		width: 150px;
+		height: 30px;
+		background: yellow;
+		border-radius:5px;
+		cursor: pointer;
+		list-style: none;
+	}
+	.flag{
+		margin:10px auto;
+	}
+	.flag ul{
+		margin:20px auto;
+		width: 165px;
+		height:110px;
+		list-style: none;
+	}
+	.flag ul li{
+		float: left;
+		font-size: 22px;
+		font-weight: bold;
+		text-align: center;
+		line-height: 30px;
+		margin:10px;
+		width: 100px;
+		height: 30px;
+		background: yellow;
+		border-radius:5px;
+		cursor: pointer;
+		list-style: none;
+	}
+	.flag ul .start{
+		width: 50px;
+	}
+	.flag ul .stop{
+		width: 50px;
+	}
+	.nandu .active{
+		background: #2972CC;
+	}
+	.buju .active{
+		background: #2972CC;
+	}
+	.flag .active{
+		background: red;
+	}
+	.flag .active{
+		background: #FFCD41;
+	}
+	.right h2{
+		display: block;
+		width:160px;
+		margin:40px auto;
+		color: white;
+	}
+	.right input{
+		display: block;
+		margin:0 auto;
+		width: 80px;
+		height: 30px;
+		font-size: 25px;
+		font-weight: bold;
+		background: green;
+		color: white;
+		text-align: center;
+		line-height: 30px;
+	}
+	.right  #core{
+		margin:20px auto;
+		width: 120px;
+	}
+	.right .nandu{
+		width:55px;
+		display: block;
+		margin:30px auto;
+	}
+</style>
+<body>
+<div class="left">
+    <h1>欢迎来到贪吃蛇</h1>
+	<div class="buju">
+	<h3>请选择行列</h3>
+		<ul>
+			<li data-row="15" class="active">15×15</li>
+			<li data-row="20">20×20</li>
+			<li data-row="30">30×30</li>
+		</ul>
+	</div>
+	<h3>自定义行列</h3>
+	<input type="text" placeholder="输入6-40间的数字回车确定">
+	<div class="nandu">
+	<h3>请选择困难度</h3>
+		<ul>
+			<li data-time="500" class="active">简单</li>
+			<li data-time="300">一般</li>
+			<li data-time="100">困难</li>
+		</ul>
+	</div>
+	<div class="flag">
+		<ul>
+			<li class="start">开始</li>
+			<li class="stop">暂停</li>
+			<li class="restart">重新开始</li>
+		</ul>
+	</div>
+</div>
+   
+  <div class="sence">
+  </div>
+  <div class="right">
+  	<h2>您当前分数为:</h2>
+    <input readonly="true" value="0" id="core">
+    <h2 class="nandu">难度</h2>
+    <input readonly="true" value="简单" id="nandu">
+  </div>
+  <script type="text/javascript" src="./jquery工程文件/jquery-1.12.0.js"></script>
+    <script type="text/javascript">
+        $(function(){
+        	var she=[{x:0,y:0},{x:0,y:1},{x:0,y:2}];
+        	var snakedict={'0-0':true,'0-1':true,'0-2':true};
+        	var timerId;
+        	var hang;
+        	var $start=$(".start");
+        	var $stop=$(".stop");
+        	var $restart=$(".restart");
+        	var time=500;
+        	var row=15;
+        	var zb2id=function(x,y){
+        		return x+'-'+y
+        	}
+        	// 选择困难度
+        	$(".nandu li").bind("click",function(){
+                time=Number($(this).attr("data-time"));
+                $(".nandu li").removeClass("active");
+                $(this).addClass("active");
+                $(".right #nandu").val($(this).text());
+            })
+            // 选择行数
+            $(".buju li").bind("click",function(){
+                row=Number($(this).attr("data-row"));
+            	$(".buju li").removeClass("active");
+            	$(this).addClass("active")
+            	sence(row);
+            	she=[{x:0,y:0},{x:0,y:1},{x:0,y:2}];
+        	    snakedict={'0-0':true,'0-1':true,'0-2':true};
+        	    snake();
+        	    food=fangshiwu();
+            })
+            // 自定义行数
+        	$(".left input").bind("keydown",function(e){
+        		if(Number($(this).val())===15){
+        			$(".buju li").removeClass("active");
+        			$(".buju li[data-row='15']").addClass("active");
+        		}else if(Number($(this).val())===20){
+        			$(".buju li").removeClass("active");
+        		    $(".buju li[data-row='20']").addClass("active");
+        		}else if(Number($(this).val())===30){
+        			$(".buju li").removeClass("active");
+        		    $(".buju li[data-row='30']").addClass("active");
+        		}else{
+        			$(".buju li").removeClass("active")
+        		}
+        		if(e.keyCode===13){
+        			if(Number($(this).val())>50||Number($(this).val())<5){
+        			alert("你确定这样好玩吗?")
+        			return;
+        		    }else{
+        		    	row=$("input").val();
+		        		sence(row);
+		        		she=[{x:0,y:0},{x:0,y:1},{x:0,y:2}];
+		        	    snakedict={'0-0':true,'0-1':true,'0-2':true};
+		        	    snake();
+		        	    food=fangshiwu();
+        		    }
+        		}
+        		
+        	})
+        	//开关
+        	var start=function(){
+               clearInterval(timerId)
+               timerId=setInterval(move,time);
+            }
+            var stop=function(){
+               $(".flag .stop").addClass("active")
+               clearInterval(timerId)
+            }
+            var restart=function(){
+               $(".flag .restart").addClass("active")
+               clearInterval(timerId);
+               $(".right #core").val("0")
+               row=$(".buju .active").attr("data-row")||$(".left input").val();
+        	   food=null;
+        	   sence(row);
+               she=[{x:0,y:0},{x:0,y:1},{x:0,y:2}];
+        	   snakedict={'0-0':true,'0-1':true,'0-2':true};
+        	   snake();
+        	   food=fangshiwu();
+        	   fangxiang=39;
+        	   // timerId=setInterval(move,Number($(".nandu .active").attr("data-time")))
+            }
+            $start.bind("click",start);
+            $stop.bind("click",stop);
+            $restart.bind("click",restart)
+            // 画场景
+        	var sence=function(hang){
+        	var sence=$(".sence");
+            sence.empty()
+        		// 画场景
+        		hang=hang||15;
+                var wh=Math.floor(600/hang)
+	        	for(var i=0;i<hang;i++){
+	        		for(var j=0;j<hang;j++){
+	        	       $('<div>').addClass("block").width(wh-1).height(wh-1).attr("id",zb2id(i,j)).appendTo(sence)
+	        		}
+	        	}
+	        	sence.width(wh*hang).height(wh*hang);
+        	}
+        	sence();
+        	
+            // 画蛇
+            var snake=function(){
+            	she.forEach(function(v){
+            	$('#'+v.x+'-'+v.y).addClass("she");
+            })
+            }
+            snake();
+            // 食物
+            var fangshiwu=function(){
+             do{
+                 var X=Math.floor(Math.random()*row);
+                 var Y=Math.floor(Math.random()*row);
+              }while(snakedict[X+'-'+Y]);
+              $('#'+X+'-'+Y).addClass("food");
+                 return {x:X,y:Y};
+            }
+            var food=fangshiwu();
+            var fangxiang=39;
+            function move(){
+              var oldhead=she[she.length-1];
+              if(fangxiang===39){
+                  var head={x:oldhead.x,y:oldhead.y+1}
+              }else if(fangxiang===37){
+                  var head={x:oldhead.x,y:oldhead.y-1}
+              }else if(fangxiang===38){
+                  var head={x:oldhead.x-1,y:oldhead.y}
+              }else if(fangxiang===40){
+                  var head={x:oldhead.x+1,y:oldhead.y}
+              }
+              // 碰到自己停止
+              // if(snakedict[head.x+'-'+head.y]){
+              // 	clearInterval(timerId);
+              // 	return;
+              // }
+              // 碰到边缘停止
+              if(head.x<0||head.x>row-1||head.y<0||head.y>row-1){
+              	alert("game over!"); 
+              	clearInterval(timerId);
+              	return;
+              }else if(head.x===food.x&&head.y===food.y){
+                // 吃到食物
+              	she.push(head);
+              	snakedict[head.x+'-'+head.y]=true;
+              	$('#'+head.x+'-'+head.y).addClass("she").removeClass("food");
+                food=fangshiwu();
+                $(".right #core").val(Number($(".right #core").val())+1)
+              }else{
+              	// 没有吃到食物
+              	she.push(head);
+                var tail=she.shift();
+                $('#'+head.x+'-'+head.y).addClass("she");
+                $('#'+tail.x+'-'+tail.y).removeClass("she");
+              	snakedict[head.x+'-'+head.y]=true;
+              }
+            }
+            $(document).bind("keydown",function(e){
+            	if(Math.abs(e.keyCode-fangxiang)===2){return;}
+            	if(e.keyCode<37||e.keyCode>40){
+                     return;
+            	}else{
+            		fangxiang=e.keyCode;
+            	}
+            })
+        })
+    </script>
+</body>
+</html>

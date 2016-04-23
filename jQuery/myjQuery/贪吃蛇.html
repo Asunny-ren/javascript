@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>贪吃蛇</title>
+</head>
+<style>
+	.sence{
+		width: 600px;
+		height:600px;
+		border:1px solid black;
+		position: absolute;
+		margin:auto;
+		left:0;
+		right:0;
+		top:0;
+		bottom:0;
+	}
+	.block{
+		width: 20px;
+		height: 20px;
+		float: left;
+		background: yellow;
+	}
+	.she{
+        width: 20px;
+        height:20px;
+        background: green;
+	}
+	.food{
+		width: 20px;
+		height: 20px;
+		background:orange;
+	}
+</style>
+<body>
+  <div class="sence">
+  </div>
+  <script type="text/javascript" src="./jquery工程文件/jquery-1.12.0.js"></script>
+    <script type="text/javascript">
+        $(function(){
+        	var she=[]
+        	var dictshe={};
+        	var food={};
+        	for(var i=0;i<30;i++){
+        		for(var j=0;j<30;j++){
+        	       $("<div class='block' id='"+i+"-"+j+"'></div>").appendTo($(".sence"))
+        		}
+        	}
+        })
+    </script>
+	
+</body>
+</html>

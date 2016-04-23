@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript">
+     // javascript中构建一个对象的四种方式
+     // 1.字面量的形式
+     var obj={
+     	"a":12,
+     	"b":32,
+     	"大苏打":"ass"
+     }
+     // 以自面量的形式创建出的对象
+     // 原型就是Object.prototype这个对象
+
+     //2.构造函数
+     var obj2=new Object()
+     obj2.a=12;
+
+     // 3.利用 Object.create() 方法
+     // 从一个已有的对象开始构建新的对象
+     var mao={
+     	zhuazi:4,
+     	erduo:2,
+     	mao:function(){
+     		console.log(1)
+     	}
+     }
+     var bosimao={
+     	zhuazi:4,
+     	erduo:2,
+     	mao:function(){
+     		console.log(1);
+     	},
+     	dianjiaojie:function(){
+     		console.log(2);
+     	}
+     }
+     var bosimao1=Object.create(mao);
+     bosimao1.dianjiaojie=function(){
+     	console.log(3);
+     }
+     console.dir(bosimao1);
+     //4.用new关键字来构造对象
+     //每一个函数对象身上，都有一个其他对象不具备的属性，叫做 prototype（函数特有的）
+     // 1.用字面量的形式构建了一个空对象{}；
+     // 2.mao.call({}) 把mao那个函数作为这个空对象的临时方法带调用了一次
+
+     // 3.把mao那个函数对象身上的prototype那个属性拿来，作为自己原型链中的一条
+     // 4.返回最终对象
+     var mao=function(){
+     	this.zhuazi=5;
+     	this.erduo=6;
+     }
+     var bosimao=new mao();
+	</script>
+</body>
+</html>
